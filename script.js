@@ -102,10 +102,30 @@ function moverBola(){
     posicionActualBola[1] += yDireccionBola
     dibujarBola()
     revisarColisiones()
-    // gameOver()
+    gameOver()
+    ganaste()
 
 }
-timerId = setInterval(moverBola, 10)
+
+function ganaste(){
+    if(bloques.length == 0){
+        clearInterval(timerId)
+        Swal.fire({
+            title: "Ganaste!!",
+            icon:  'success',
+            confirmButtonText: "Reiniciar",
+            background : "black",
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.reload()            
+            }
+        })
+    }
+}
+timerId = setInterval(moverBola,20)
 
 function revisarColisiones(){
   
@@ -116,6 +136,7 @@ function revisarColisiones(){
             const todosLosBloques = Array.from(document.querySelectorAll('.bloque'))
             todosLosBloques[i].classList.remove('bloque')
             bloques.splice(i,1)
+            console.log(bloques)
             cambiarDireccion()
         }
     }
@@ -139,24 +160,25 @@ function revisarColisiones(){
 }
 //funcion que termina el juego si la bola toca suelo.
 function gameOver(){
-   // if(posicionActualBola[1] <= 0){
-      //  clearInterval(timerId)
-     //   document.removeEventListener('keydown',moverUsuario)
-        // Swal.fire({
-        //     title: "Perdiste!!",
-        //     icon:  'error',
-        //     confirmButtonText: "Reiniciar",
-        //     background : "black",
-        //     showCancelButton: false,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-        //         window.location.reload()            
-        //     }
-        // })
+   if(posicionActualBola[1] <= 0){
+       clearInterval(timerId)
+       document.removeEventListener('keydown',moverUsuario)
+        Swal.fire({
+            title: "Perdiste!!",
+            icon:  'error',
+            confirmButtonText: "Reiniciar",
+            background : "black",
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.reload()            
+            }
+        })
        
     }
+}
 
 
 //Funcion de cambiar la dirección.
